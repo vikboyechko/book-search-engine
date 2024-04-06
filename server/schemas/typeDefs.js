@@ -18,6 +18,11 @@ type Book {
     title: String
 }
 
+type Auth {
+    token: ID!
+    user: User
+}
+
 type Query {
     users: [User]
     user(username: String!): User
@@ -25,6 +30,7 @@ type Query {
     books(username: String): [Book]
     book(bookId: ID!): Book
 }
+
 
 type Mutation {
     addUser(
