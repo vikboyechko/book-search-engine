@@ -43,6 +43,7 @@ type Mutation {
         password: String!
         ): Auth
     saveBook(
+        userId: ID!,
         authors: [String], 
         description: String, 
         title: String, 
@@ -51,6 +52,7 @@ type Mutation {
         link: String
         ): User
     removeBook(
+        userId: ID!,
         bookId: ID!
         ): User
 }
