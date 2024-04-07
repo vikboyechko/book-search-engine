@@ -49,17 +49,16 @@ const resolvers = {
     },
 
     // remove a book from `savedBooks`
-    removeBook: async (parent, { userId, bookId }) => {
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: userId },
-        { $pull: { savedBooks: bookId } },
-        { new: true }
-      );
-      if (!updatedUser) {
-        return res.status(404).json({ message: "Couldn't find user with this id!" });
-        }
-        return updatedUser;
-    }
+    removeBook: async (parent, { userId, bookId }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: userId },
+          { $pull: { savedBooks: { bookId } } },
+          { new: true }
+        );
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
   },
 };
 
