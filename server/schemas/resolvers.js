@@ -43,13 +43,9 @@ const resolvers = {
     },
 
     // save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
-    saveBook: async (parent, { userId, bookId }) => {
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: userId },
-        { $addToSet: { savedBooks: bookId } },
-        { new: true }
-      );
-        return updatedUser;
+    saveBook: async (_, { userId, bookData }, context) => {
+      const user = await User.findByIdAndUpdate(userId, { $push: { savedBooks: bookData } }, { new: true });
+      return user;
     },
 
     // remove a book from `savedBooks`
